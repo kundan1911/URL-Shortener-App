@@ -1,3 +1,5 @@
+<!-- The below must be used to load the css and images file cause it does not directly know from where the static files are to be loaded -->
+<!-- Load the static files first then render the html page -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" class="">
@@ -8,6 +10,7 @@
 
 	<title>Custom URL Shortener</title>
 
+	<!-- as at first a static file gets loaded we need to provide the file name from the static folder that is to be used as css and image -->
 	<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css" media="screen">
 	<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" media="screen">
 </head>
@@ -29,6 +32,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 mobile_bg text-right">
+						<!-- from the static folder provide the image that is to be loaded in source -->
 							<img src="{% static 'Rebrandly.png' %}" />
 						</div>
 					</div>
@@ -41,6 +45,8 @@
 				<div class="row">
 					<div class="col-12 mt-4 py-2 mb-2">
 						<form method="post" id="form_input">
+							<!-- the below token is used so that the django can handle and secure session -->
+							<!-- for every session an unique token is generated -->
                             {% csrf_token %}
 							<div class="input-group">
 								<input type="url" class="cutt_url w-50 p-4 rounded-12"
@@ -54,22 +60,23 @@
 						</form>
 					</div>
 				</div>
-
+				{% if repeatAlias%}
 				<div class="row">
-					<div class="col-12 mt-4 py-2 mb-2" style="text-align: center; color: red;">
+					<div class="col-12 mt-4 py-2 mb-2" style="text-align: center; color: red; ">
 						<p>The alias name is already taken</p>
 					</div>
 				</div>
 
 			</div>
-
+			{% endif %}
             {% if submitted %}
 			<div id="results">
 				<div class="container">
 					<div class="row py-4">
 						<div class="col-12 result">
 							<div class="url_options rounded-6" id="0">
-								<p class="data_link">April 2, 2022</p>
+								<p class="data_link">{{date}}</p>
+								<!-- awesome thing the long url gets renders after the short url i.e longurl will be below the short url -->
 								<p class="url_link">
 									{{long_url}}
 
@@ -86,7 +93,7 @@
 										<use xlink:href="#i_chart"></use>
 									</svg>
 									<span>
-										<b class="badge">0</b>clicks
+										<b class="badge">{{clickCount}}</b>clicks
 									</span>
 								</a>
 							</div>
@@ -113,7 +120,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="copyright-text">
-								<p><a href="https://www.o1codingclub.in/">O(1) Coding Club</a></p>
+								<p><a href="">giggle gallery</a></p>
 							</div>
 						</div>
 					</div>

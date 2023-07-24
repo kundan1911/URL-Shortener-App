@@ -20,9 +20,9 @@
 					<h2 class="h1" style="text-align: center;">All Links Analytics</h2>
 				</div>
 				{% for i in entries%}
-				<div class="url_options url_stats_o" >
+				<div class="url_options rounded-6" id="0">
 					<p class="data_link">{{i.date}}</p>
-					<p class="url_link" >
+					<p class="url_link" style="pointer-events: none; color: black;">
 						{{i.long_url}}
 					</p>
 					<p id="link" class="link_element">

@@ -39,7 +39,7 @@
 			<br /><br />
 			<div class="row">
                 <div class="col-6">
-                    <h2 style="text-align: center; font-size: 25px; font-weight: 500;">Country Clicks</h2>
+                    <h2 style="text-align: center; font-size: 25px; font-weight: 500;">Total Clicks</h2>
                     <canvas id="barChart"></canvas>
                 </div>
                 <div class="col-6">
@@ -52,17 +52,18 @@
 
 </body>
 
-	<script>
+	<script type="text/javascript">
         // const ctx = document.getElementById('barChart').getContext('2d');
         const ctx = document.getElementById('barChart')
     //    const countries = {{ countries | safe}};
+        const label=[]
         const number_of_clicks = parseInt((document.getElementsByClassName('allClicks')[0].innerText));
         console.log("number_of_clicks",number_of_clicks)
 
         const barChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: countries,
+                labels: label,
                 datasets: [{
                     label: 'Clicks',
                     data: {number_of_clicks},
@@ -85,7 +86,7 @@
                 ],
                 datasets: [{
                     label: 'My First Dataset',
-                    data: [desktop_count, mobile_count],
+                    data: [number_of_clicks, number_of_clicks],
                     backgroundColor: [
                         'rgb(54, 162, 235)',
                         'rgb(255, 205, 86)'

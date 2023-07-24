@@ -14,7 +14,7 @@ def generate_user_id():
     return user_id
 
 def login_page(req):
-    # context={'submitted':False,'repeatAlias':False}
+    contxt=False
     print(req.session)
     if req.method=="POST":
         data=req.POST
@@ -43,9 +43,12 @@ def login_page(req):
                 req.session['userId']= current_user_id
                 return redirect(home_page)
             else :
+                contxt=True
                 print("wrong password")
-
-    return render(req,'login.html');
+    context={'invalid':False}
+    if contxt==True:
+        context['invalid']=True
+    return render(req,'login.html',context);
 
 #request contains all the information about the activity happen on the URL
 #post,get as per the action on the particular endpoint
@@ -53,6 +56,8 @@ def login_page(req):
 def home_page(req):
     # print(req.META)
     context={'submitted':False,'repeatAlias':False}
+    user_agent = req.META.get('HTTP_USER_AGENT', '')
+    print("agent",user_agent);
     # curr_user=UserProfile.objects.filter(userName=usrname);
     print(req.session.get('userId'))
     if req.method=="POST":
@@ -66,13 +71,17 @@ def home_page(req):
             
             context['long_url']=longurl
             context['short_url']=req.build_absolute_uri().rsplit('/', 1)[0] + '/'+customurl
-          
-            
-            obj=LongtoShort(user_id=req.session.get('userId'),long_url=longurl,custom_name=customurl)
-            obj.save()
-            context['submitted']=True
-            context['clickCount']=obj.clicks
-            context['date']=obj.date
+
+            currentShrtTolong=LongtoShort.objects.filter(user_id=req.session.get('userId'),custom_name=customurl);
+            if len(currentShrtTolong)==0:
+                obj=LongtoShort(user_id=req.session.get('userId'),long_url=longurl,custom_name=customurl)
+                obj.save()
+                context['submitted']=True
+                context['clickCount']=obj.clicks
+                context['date']=obj.date
+            else:
+                context={"repeatAlias":True}
+
         except:
             print("error")
             context={"repeatAlias":True}

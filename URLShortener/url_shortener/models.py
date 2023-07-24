@@ -11,7 +11,7 @@ class UserProfile(models.Model):
 class LongtoShort(models.Model):
     user_id=models.CharField(max_length=20)
     long_url = models.URLField(max_length=500)
-    custom_name = models.CharField(max_length=50, unique=True)
+    custom_name = models.CharField(max_length=50)
     date = models.DateField(auto_now_add=True)
     clicks = models.IntegerField(default=0)
 
